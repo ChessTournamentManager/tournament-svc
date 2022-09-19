@@ -1,5 +1,6 @@
 version: '3.4'
 
+name: chess-tournament-manager
 services:
   tournamentsvc:
     image: tournament-svc
