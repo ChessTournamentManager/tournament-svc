@@ -1,13 +1,20 @@
 package com.chesstournamentmanager.tournamentsvc.models;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+@Data
 @RedisHash("Tournament")
 public class Tournament  implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 6828938851562689867L;
 
     public enum Status {
         PLANNED,
@@ -17,6 +24,7 @@ public class Tournament  implements Serializable {
         CANCELLED
     }
 
+    @Id
     private UUID id;
     private UUID hostId;
     private String name;
@@ -27,7 +35,9 @@ public class Tournament  implements Serializable {
 
     private LocalDateTime createdAt;
 
+
     public Tournament(UUID hostId, String name, Status status, LocalDateTime startTime, int rounds, int timePerPlayer) {
+        this.id = UUID.randomUUID();
         this.hostId = hostId;
         this.name = name;
         this.status = status;

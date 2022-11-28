@@ -7,13 +7,15 @@ public class RequestModel {
     private UUID hostId;
     private String name;
     private Tournament.Status status;
+    private LocalDateTime startTime;
     private int rounds;
     private int timePerPlayer;
 
-    public RequestModel(UUID hostId, String name, Tournament.Status status, int rounds, int timePerPlayer) {
+    public RequestModel(UUID hostId, String name, Tournament.Status status, LocalDateTime startTime, int rounds, int timePerPlayer) {
         this.hostId = hostId;
         this.name = name;
         this.status = status;
+        this.startTime = startTime;
         this.rounds = rounds;
         this.timePerPlayer = timePerPlayer;
     }
@@ -40,6 +42,14 @@ public class RequestModel {
 
     public void setStatus(Tournament.Status status) {
         this.status = status;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public int getRounds() {

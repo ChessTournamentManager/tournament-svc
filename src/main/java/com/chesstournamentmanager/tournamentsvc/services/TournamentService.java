@@ -18,8 +18,8 @@ public class TournamentService {
     private final TournamentRepository tournamentRepository;
 
     @Autowired
-    public TournamentService(TournamentRepository TournamentRepository) {
-        this.tournamentRepository = TournamentRepository;
+    public TournamentService(TournamentRepository tournamentRepository) {
+        this.tournamentRepository = tournamentRepository;
     }
 
 

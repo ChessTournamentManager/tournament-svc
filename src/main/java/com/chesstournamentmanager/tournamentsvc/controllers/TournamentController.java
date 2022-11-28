@@ -3,7 +3,6 @@ package com.chesstournamentmanager.tournamentsvc.controllers;
 import com.chesstournamentmanager.tournamentsvc.models.RequestModel;
 import com.chesstournamentmanager.tournamentsvc.models.Tournament;
 import com.chesstournamentmanager.tournamentsvc.services.TournamentService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +12,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/tournament")
+@RequestMapping(path = "api/v1/tournament")
 public class TournamentController {
 
     private final TournamentService tournamentService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public TournamentController(TournamentService tournamentService, ModelMapper modelMapper) {
+    public TournamentController(TournamentService tournamentService) {
         this.tournamentService = tournamentService;
-        this.modelMapper = modelMapper;
     }
 
 
@@ -96,7 +93,14 @@ public class TournamentController {
 
 
     private Tournament convertToEntity(RequestModel requestModel) {
-        Tournament tournament = modelMapper.map(requestModel, Tournament.class);
+        Tournament tournament = new Tournament(
+                requestModel.getHostId(),
+                requestModel.getName(),
+                requestModel.getStatus(),
+                requestModel.getStartTime(),
+                requestModel.getRounds(),
+                requestModel.getTimePerPlayer()
+        );
         return tournament;
     }
 }
