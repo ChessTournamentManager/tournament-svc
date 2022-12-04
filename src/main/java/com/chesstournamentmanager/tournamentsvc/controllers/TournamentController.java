@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/v1/tournament")
+@RequestMapping(path = "tournament")
 public class TournamentController {
 
     private final TournamentService tournamentService;
@@ -71,9 +71,9 @@ public class TournamentController {
             @RequestParam(required = false) UUID hostId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Tournament.Status status,
-            @RequestParam(required = false) int rounds,
+            @RequestParam(required = false) int maxRounds,
             @RequestParam(required = false) int timePerPlayer) {
-        tournamentService.updateTournament(id, hostId, name, status, rounds, timePerPlayer);
+        tournamentService.updateTournament(id, hostId, name, status, maxRounds, timePerPlayer);
         Optional<Tournament> returnedUser= tournamentService.getTournament(id);
         if (returnedUser.isEmpty()) {
             throw new ResponseStatusException(
@@ -98,7 +98,7 @@ public class TournamentController {
                 requestModel.getName(),
                 requestModel.getStatus(),
                 requestModel.getStartTime(),
-                requestModel.getRounds(),
+                requestModel.getMaxRounds(),
                 requestModel.getTimePerPlayer()
         );
         return tournament;

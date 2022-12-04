@@ -8,15 +8,15 @@ public class RequestModel {
     private String name;
     private Tournament.Status status;
     private LocalDateTime startTime;
-    private int rounds;
+    private int maxRounds;
     private int timePerPlayer;
 
-    public RequestModel(UUID hostId, String name, Tournament.Status status, LocalDateTime startTime, int rounds, int timePerPlayer) {
+    public RequestModel(UUID hostId, String name, Tournament.Status status, LocalDateTime startTime, int maxRounds, int timePerPlayer) {
         this.hostId = hostId;
         this.name = name;
         this.status = status;
         this.startTime = startTime;
-        this.rounds = rounds;
+        this.maxRounds = maxRounds;
         this.timePerPlayer = timePerPlayer;
     }
 
@@ -52,12 +52,12 @@ public class RequestModel {
         this.startTime = startTime;
     }
 
-    public int getRounds() {
-        return rounds;
+    public int getMaxRounds() {
+        return maxRounds;
     }
 
-    public void setRounds(int rounds) {
-        this.rounds = rounds;
+    public void setMaxRounds(int maxRounds) {
+        this.maxRounds = maxRounds;
     }
 
     public int getTimePerPlayer() {

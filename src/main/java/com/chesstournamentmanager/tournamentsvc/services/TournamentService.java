@@ -5,8 +5,6 @@ import com.chesstournamentmanager.tournamentsvc.repositories.TournamentRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -45,7 +43,7 @@ public class TournamentService {
 
 
     @Transactional
-    public void updateTournament(UUID id, UUID hostId, String name, Tournament.Status status, int rounds, int timePerPlayer) {
+    public void updateTournament(UUID id, UUID hostId, String name, Tournament.Status status, int maxRounds, int timePerPlayer) {
         Tournament tournament = tournamentRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(
                         "Tournament with id " + id + " does not exist"
@@ -62,9 +60,9 @@ public class TournamentService {
             tournament.setStatus(status);
         }
 
-        if (rounds > 0 &&
-                !Objects.equals(tournament.getRounds(), rounds)) {
-            tournament.setRounds(rounds);
+        if (maxRounds > 0 &&
+                !Objects.equals(tournament.getMaxRounds(), maxRounds)) {
+            tournament.setMaxRounds(maxRounds);
         }
 
         if (timePerPlayer > 0 &&

@@ -30,19 +30,19 @@ public class Tournament  implements Serializable {
     private String name;
     private Status status;
     private LocalDateTime startTime;
-    private int rounds;
+    private int currentRound;
+    private int maxRounds;
     private int timePerPlayer;
-
     private LocalDateTime createdAt;
 
 
-    public Tournament(UUID hostId, String name, Status status, LocalDateTime startTime, int rounds, int timePerPlayer) {
+    public Tournament(UUID hostId, String name, Status status, LocalDateTime startTime, int maxRounds, int timePerPlayer) {
         this.id = UUID.randomUUID();
         this.hostId = hostId;
         this.name = name;
         this.status = status;
         this.startTime = startTime;
-        this.rounds = rounds;
+        this.maxRounds = maxRounds;
         this.timePerPlayer = timePerPlayer;
         this.createdAt = LocalDateTime.now();
     }
@@ -79,12 +79,20 @@ public class Tournament  implements Serializable {
         this.startTime = startTime;
     }
 
-    public int getRounds() {
-        return rounds;
+    public int getCurrentRound() {
+        return currentRound;
     }
 
-    public void setRounds(int rounds) {
-        this.rounds = rounds;
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public int getMaxRounds() {
+        return maxRounds;
+    }
+
+    public void setMaxRounds(int maxRounds) {
+        this.maxRounds = maxRounds;
     }
 
     public int getTimePerPlayer() {
