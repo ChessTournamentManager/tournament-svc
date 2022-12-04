@@ -42,7 +42,7 @@ public class TournamentController {
 
 
     @PostMapping
-    public Tournament addUser(@RequestBody RequestModel requestModel) {
+    public Tournament addTournament(@RequestBody RequestModel requestModel) {
         Tournament tournament = convertToEntity(requestModel);
 
         String message = tournamentService.TournamentValidation(tournament);
@@ -74,14 +74,14 @@ public class TournamentController {
             @RequestParam(required = false) int maxRounds,
             @RequestParam(required = false) int timePerPlayer) {
         tournamentService.updateTournament(id, hostId, name, status, maxRounds, timePerPlayer);
-        Optional<Tournament> returnedUser= tournamentService.getTournament(id);
-        if (returnedUser.isEmpty()) {
+        Optional<Tournament> returnedTournament= tournamentService.getTournament(id);
+        if (returnedTournament.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "The tournament was not updated successfully. Ask the developers to fix this issue."
             );
         }
-        return returnedUser.get();
+        return returnedTournament.get();
     }
 
 
