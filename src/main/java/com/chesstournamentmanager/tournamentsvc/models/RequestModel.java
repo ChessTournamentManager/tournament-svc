@@ -11,10 +11,9 @@ public class RequestModel {
     private int maxRounds;
     private int timePerPlayer;
 
-    public RequestModel(UUID hostId, String name, Tournament.Status status, LocalDateTime startTime, int maxRounds, int timePerPlayer) {
+    public RequestModel(UUID hostId, String name, LocalDateTime startTime, int maxRounds, int timePerPlayer) {
         this.hostId = hostId;
         this.name = name;
-        this.status = status;
         this.startTime = startTime;
         this.maxRounds = maxRounds;
         this.timePerPlayer = timePerPlayer;

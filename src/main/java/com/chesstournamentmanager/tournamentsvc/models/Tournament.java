@@ -30,6 +30,7 @@ public class Tournament  implements Serializable {
     private String name;
     private Status status;
     private LocalDateTime startTime;
+    private LocalDateTime finishTime;
     private int currentRound;
     private int maxRounds;
     private int timePerPlayer;
@@ -44,6 +45,13 @@ public class Tournament  implements Serializable {
         this.startTime = startTime;
         this.maxRounds = maxRounds;
         this.timePerPlayer = timePerPlayer;
+
+        this.finishTime = startTime
+                .plusDays(1)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0);
+
         this.createdAt = LocalDateTime.now();
     }
 
@@ -77,6 +85,14 @@ public class Tournament  implements Serializable {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    public LocalDateTime getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(LocalDateTime finishTime) {
+        this.finishTime = finishTime;
     }
 
     public int getCurrentRound() {

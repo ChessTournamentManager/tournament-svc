@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -71,9 +72,10 @@ public class TournamentController {
             @RequestParam(required = false) UUID hostId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Tournament.Status status,
+            @RequestParam(required = false) LocalDateTime startTime,
             @RequestParam(required = false) int maxRounds,
             @RequestParam(required = false) int timePerPlayer) {
-        tournamentService.updateTournament(id, hostId, name, status, maxRounds, timePerPlayer);
+        tournamentService.updateTournament(id, hostId, name, status, startTime, maxRounds, timePerPlayer);
         Optional<Tournament> returnedTournament= tournamentService.getTournament(id);
         if (returnedTournament.isEmpty()) {
             throw new ResponseStatusException(
@@ -93,7 +95,7 @@ public class TournamentController {
 
 
     private Tournament convertToEntity(RequestModel requestModel) {
-        Tournament tournament = new Tournament(
+        return new Tournament(
                 requestModel.getHostId(),
                 requestModel.getName(),
                 requestModel.getStatus(),
@@ -101,6 +103,5 @@ public class TournamentController {
                 requestModel.getMaxRounds(),
                 requestModel.getTimePerPlayer()
         );
-        return tournament;
     }
 }
