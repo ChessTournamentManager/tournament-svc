@@ -46,7 +46,7 @@ public class TournamentController {
     public Tournament addTournament(@RequestBody RequestModel requestModel) {
         Tournament tournament = convertToEntity(requestModel);
 
-        String message = tournamentService.TournamentValidation(tournament);
+        String message = tournamentService.tournamentValidation(tournament);
         if (!message.isEmpty())
         {
             throw new ResponseStatusException(

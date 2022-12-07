@@ -46,7 +46,7 @@ public class TournamentService {
                         "Tournament with id " + id + " does not exist"
                 ));
 
-        status = CheckStatus(tournament, status, startTime);
+        status = checkStatus(tournament, status, startTime);
 
         if (!tournament.getHostId().toString().isBlank() &&
             !Objects.equals(tournament.getHostId(), hostId)) {
@@ -81,7 +81,7 @@ public class TournamentService {
 
     // Do something like this, but event-driven.
     @Transactional
-    public void StartTournament(Tournament tournament) {
+    public void startTournament(Tournament tournament) {
         if (tournament.getStatus() == Tournament.Status.PLANNED && tournament.getStartTime().isBefore(LocalDateTime.now())) {
             tournament.setStatus(Tournament.Status.ONGOING);
         }
@@ -100,7 +100,7 @@ public class TournamentService {
 
     // Validation methods
 
-    public String TournamentValidation(Tournament tournament) {
+    public String tournamentValidation(Tournament tournament) {
         if (!tournament.getHostId().toString().isBlank()) {
             return "No host ID was provided";
         }
@@ -113,8 +113,12 @@ public class TournamentService {
             return "No status was provided";
         }
 
-        if (StatusToStartTimeValidator(tournament.getStatus(), tournament.getStartTime())) {
-            return "The given status was not valid due to its date";
+        if (plannedTournamentIsInTheFuture(tournament.getStatus(), tournament.getStartTime())) {
+            return "A planned tournament may not start before the current time";
+        }
+
+        if (ongoingOrEndedTournamentIsInThePast(tournament.getStatus(), tournament.getStartTime())) {
+            return "An tournament which is ongoing or has ended may not start after the current time";
         }
 
         if (tournament.getStartTime() == null){
@@ -134,9 +138,8 @@ public class TournamentService {
 
     // Private methods
 
-    private Tournament.Status CheckStatus(Tournament tournament, Tournament.Status status, LocalDateTime startTime) {
+    private Tournament.Status checkStatus(Tournament tournament, Tournament.Status status, LocalDateTime startTime) {
         boolean statusChanged = false;
-        boolean startTimeChanged = false;
         Tournament.Status tempStatus;
         LocalDateTime tempStartTime;
 
@@ -149,35 +152,38 @@ public class TournamentService {
 
         if (startTime != null && !Objects.equals(tournament.getStartTime(), startTime)) {
             tempStartTime = startTime;
-            startTimeChanged = true;
         } else {
             tempStartTime = tournament.getStartTime();
         }
-
-        if (!StatusToStartTimeValidator(tempStatus, tempStartTime) && (statusChanged || startTimeChanged)) {
-            if (tempStatus == Tournament.Status.PLANNED && tempStartTime.isBefore(LocalDateTime.now())) {
-                if (tempStartTime.isBefore(tournament.getFinishTime())) {
-                    return Tournament.Status.ONGOING;
-                } else {
-                    return Tournament.Status.CANCELLED;
-                }
+        
+        if (!plannedTournamentIsInTheFuture(tempStatus, tempStartTime)) {
+            if (tempStartTime.isBefore(tournament.getFinishTime())) {
+                return Tournament.Status.ONGOING;
             } else {
-                if (statusChanged) {
-                    throw  new IllegalStateException("Can't put the tournament's status to this value due to its start date");
-                } else {
-                    throw new IllegalStateException("Can't put the tournament's start date to this value due to its status");
-                }
+                return Tournament.Status.CANCELLED;
+            }
+        }
+        
+        if (!ongoingOrEndedTournamentIsInThePast(tempStatus, tempStartTime)) {
+            if (statusChanged) {
+                throw  new IllegalStateException("Can't put the tournament's status to this value due to its start date");
+            } else {
+                throw new IllegalStateException("Can't put the tournament's start date to this value due to its status");
             }
         }
 
         return status;
     }
 
-    private boolean StatusToStartTimeValidator(Tournament.Status status, LocalDateTime startTime) {
-        if (status == Tournament.Status.PLANNED && startTime.isBefore(LocalDateTime.now())) {
-            return false;
-        }
+//     Will always be true when checking a tournament that is not planned, because this method should only check planned tournaments.
+//     Will be false when a tournament is planned, and it starts before the current time.
+    private boolean plannedTournamentIsInTheFuture(Tournament.Status status, LocalDateTime startTime) {
+        return status != Tournament.Status.PLANNED || startTime.isAfter(LocalDateTime.now());
+    }
 
-        return status == Tournament.Status.PLANNED || !startTime.isAfter(LocalDateTime.now());
+    // Will always be true when checking a tournament that is planned, because this method should only check tournaments that are ongoing or have ended.
+    // Will be false when a tournament is ongoing or has ended, and it starts after the current time.
+    private boolean ongoingOrEndedTournamentIsInThePast(Tournament.Status status, LocalDateTime startTime) {
+        return status == Tournament.Status.PLANNED || startTime.isBefore(LocalDateTime.now());
     }
 }
