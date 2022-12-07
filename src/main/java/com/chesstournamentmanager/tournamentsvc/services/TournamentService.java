@@ -101,7 +101,7 @@ public class TournamentService {
     // Validation methods
 
     public String tournamentValidation(Tournament tournament) {
-        if (!tournament.getHostId().toString().isBlank()) {
+        if (tournament.getHostId().toString().isBlank()) {
             return "No host ID was provided";
         }
 
@@ -113,11 +113,11 @@ public class TournamentService {
             return "No status was provided";
         }
 
-        if (plannedTournamentIsInTheFuture(tournament.getStatus(), tournament.getStartTime())) {
+        if (!plannedTournamentIsInTheFuture(tournament.getStatus(), tournament.getStartTime())) {
             return "A planned tournament may not start before the current time";
         }
 
-        if (ongoingOrEndedTournamentIsInThePast(tournament.getStatus(), tournament.getStartTime())) {
+        if (!ongoingOrEndedTournamentIsInThePast(tournament.getStatus(), tournament.getStartTime())) {
             return "An tournament which is ongoing or has ended may not start after the current time";
         }
 

@@ -35,7 +35,7 @@ public class TournamentController {
         Optional<Tournament> tournament = tournamentService.getTournament(id);
         if (tournament.isEmpty()) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Tournament with id " + id + " does not exist"
+                    HttpStatus.NOT_FOUND, "Tournament with id " + id + " not found"
             );
         }
         return tournament.get();
@@ -47,8 +47,7 @@ public class TournamentController {
         Tournament tournament = convertToEntity(requestModel);
 
         String message = tournamentService.tournamentValidation(tournament);
-        if (!message.isEmpty())
-        {
+        if (!message.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     message

@@ -1,5 +1,6 @@
 package com.chesstournamentmanager.tournamentsvc.config;
 
+import com.chesstournamentmanager.tournamentsvc.models.Tournament;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.util.UUID;
 
 @Configuration
 @EnableCaching
@@ -29,7 +32,7 @@ public class MainConfiguration {
     }
 
     @Bean
-    public RedisTemplate<?, ?> redisTemplate() {
+    public RedisTemplate<byte[], byte[]> redisTemplate() {
         RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisLettuceConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
