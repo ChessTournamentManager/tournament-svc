@@ -5,11 +5,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-@Data
 @RedisHash("Tournament")
 public class Tournament  implements Serializable {
 
@@ -34,7 +32,7 @@ public class Tournament  implements Serializable {
     private int currentRound;
     private int maxRounds;
     private int timePerPlayer;
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
 
     public Tournament(UUID hostId, String name, Status status, LocalDateTime startTime, int maxRounds, int timePerPlayer) {
@@ -61,6 +59,10 @@ public class Tournament  implements Serializable {
 
     public UUID getHostId() {
         return hostId;
+    }
+
+    public void setHostId(UUID hostId) {
+        this.hostId = hostId;
     }
 
     public String getName() {

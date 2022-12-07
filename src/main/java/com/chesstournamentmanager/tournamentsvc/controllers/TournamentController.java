@@ -75,7 +75,7 @@ public class TournamentController {
             @RequestParam(required = false) int maxRounds,
             @RequestParam(required = false) int timePerPlayer) {
         tournamentService.updateTournament(id, hostId, name, status, startTime, maxRounds, timePerPlayer);
-        Optional<Tournament> returnedTournament= tournamentService.getTournament(id);
+        Optional<Tournament> returnedTournament = tournamentService.getTournament(id);
         if (returnedTournament.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
