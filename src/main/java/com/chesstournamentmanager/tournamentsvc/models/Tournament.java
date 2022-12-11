@@ -32,7 +32,7 @@ public class Tournament  implements Serializable {
     private int currentRound;
     private int maxRounds;
     private int timePerPlayer;
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
 
     public Tournament(UUID hostId, String name, Status status, LocalDateTime startTime, int maxRounds, int timePerPlayer) {
