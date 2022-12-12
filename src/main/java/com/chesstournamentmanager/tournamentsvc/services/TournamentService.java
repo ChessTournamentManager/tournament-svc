@@ -14,6 +14,17 @@ import java.util.UUID;
 @Service
 public class TournamentService {
 
+    public static final String MESSAGE_NO_HOST_ID = "No host ID was provided";
+    public static final String MESSAGE_EMPTY_HOST_ID = "The provided host ID was empty";
+    public static final String MESSAGE_NO_NAME = "No name was provided";
+    public static final String MESSAGE_EMPTY_NAME = "The provided name was empty";
+    public static final String MESSAGE_NO_STATUS = "No status was provided";
+    public static final String MESSAGE_PLANNED_TOURNAMENT_STARTS_IN_PAST = "A planned tournament may not start before the current time";
+    public static final String MESSAGE_NON_PLANNED_TOURNAMENT_STARTS_IN_FUTURE = "An tournament which is ongoing or has ended may not start after the current time";
+    public static final String MESSAGE_NO_START_TIME = "No start time was provided";
+    public static final String MESSAGE_NO_MAX_ROUNDS = "No maximum rounds were provided";
+    public static final String MESSAGE_NO_TIME_PER_PLAYER = "No amount of time per player was provided";
+
     private final TournamentRepository tournamentRepository;
 
     @Autowired
@@ -48,12 +59,14 @@ public class TournamentService {
 
         status = checkStatus(tournament, status, startTime);
 
-        if (!tournament.getHostId().toString().isBlank() &&
+        if (hostId != null &&
+                !hostId.toString().isBlank() &&
             !Objects.equals(tournament.getHostId(), hostId)) {
             tournament.setHostId(hostId);
         }
 
-        if (name.isBlank() &&
+        if (name != null &&
+                !name.isBlank() &&
                 !Objects.equals(tournament.getName(), name)) {
             tournament.setName(name);
         }
@@ -101,36 +114,43 @@ public class TournamentService {
     // Validation methods
 
     public String tournamentValidation(Tournament tournament) {
+        if (tournament.getHostId() == null) {
+            return MESSAGE_NO_HOST_ID;
+        }
         if (tournament.getHostId().toString().isBlank()) {
-            return "No host ID was provided";
+            return MESSAGE_EMPTY_HOST_ID;
+        }
+
+        if (tournament.getName() == null) {
+            return MESSAGE_NO_NAME;
         }
 
         if (tournament.getName().isBlank()) {
-            return "No name was provided";
+            return MESSAGE_EMPTY_NAME;
         }
 
         if (tournament.getStatus() == null) {
-            return "No status was provided";
-        }
-
-        if (!plannedTournamentIsInTheFuture(tournament.getStatus(), tournament.getStartTime())) {
-            return "A planned tournament may not start before the current time";
-        }
-
-        if (!ongoingOrEndedTournamentIsInThePast(tournament.getStatus(), tournament.getStartTime())) {
-            return "An tournament which is ongoing or has ended may not start after the current time";
+            return MESSAGE_NO_STATUS;
         }
 
         if (tournament.getStartTime() == null){
-            return "No start time was provided";
+            return MESSAGE_NO_START_TIME;
+        }
+
+        if (!plannedTournamentIsInTheFuture(tournament.getStatus(), tournament.getStartTime())) {
+            return MESSAGE_PLANNED_TOURNAMENT_STARTS_IN_PAST;
+        }
+
+        if (!ongoingOrEndedTournamentIsInThePast(tournament.getStatus(), tournament.getStartTime())) {
+            return MESSAGE_NON_PLANNED_TOURNAMENT_STARTS_IN_FUTURE;
         }
 
         if (tournament.getMaxRounds() <= 0) {
-            return "No maximum rounds were provided";
+            return MESSAGE_NO_MAX_ROUNDS;
         }
 
         if (tournament.getTimePerPlayer() <= 0) {
-            return "No amount of time per player was provided";
+            return MESSAGE_NO_TIME_PER_PLAYER;
         }
 
         return "";
@@ -184,6 +204,6 @@ public class TournamentService {
     // Will always be true when checking a tournament that is planned, because this method should only check tournaments that are ongoing or have ended.
     // Will be false when a tournament is ongoing or has ended, and it starts after the current time.
     private boolean ongoingOrEndedTournamentIsInThePast(Tournament.Status status, LocalDateTime startTime) {
-        return status == Tournament.Status.PLANNED || startTime.isBefore(LocalDateTime.now());
+        return status == Tournament.Status.PLANNED || status == Tournament.Status.CANCELLED || startTime.isBefore(LocalDateTime.now());
     }
 }
