@@ -1,8 +1,9 @@
-package com.chesstournamentmanager.tournamentsvc.services;
+package com.chesstournamentmanager.tournamentsvc.UnitTests.services;
 
 import com.chesstournamentmanager.tournamentsvc.config.TournamentData;
 import com.chesstournamentmanager.tournamentsvc.models.Tournament;
 import com.chesstournamentmanager.tournamentsvc.repositories.TournamentRepository;
+import com.chesstournamentmanager.tournamentsvc.services.TournamentService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

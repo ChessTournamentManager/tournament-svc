@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash("Tournament")
-public class Tournament  implements Serializable {
+public class Tournament implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 6828938851562689867L;

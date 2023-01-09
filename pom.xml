@@ -28,6 +28,10 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -38,13 +42,8 @@
 			<version>1.6.13</version>
 		</dependency>
 		<dependency>
-			<groupId> org.springframework.boot </groupId>
-			<artifactId> spring-boot-starter-data-redis </artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.lettuce/lettuce-core -->
 		<dependency>
@@ -64,7 +63,7 @@
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.8</version>
 		</dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>
