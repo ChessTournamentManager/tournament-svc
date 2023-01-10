@@ -24,7 +24,6 @@ public class TournamentServiceTest {
     @Mock
     private TournamentRepository tournamentRepository;
     private AutoCloseable autoCloseable;
-    @Mock
     private TournamentService tournamentService;
     private TournamentData tournamentData;
 
