@@ -3,12 +3,17 @@ package com.chesstournamentmanager.tournamentsvc.models;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @RedisHash("Tournament")
 public class Tournament implements Serializable {
@@ -50,7 +55,8 @@ public class Tournament implements Serializable {
                 .plusDays(1)
                 .withHour(0)
                 .withMinute(0)
-                .withSecond(0);
+                .withSecond(0)
+                .withNano(0);
 
         this.createdAt = LocalDateTime.now();
     }

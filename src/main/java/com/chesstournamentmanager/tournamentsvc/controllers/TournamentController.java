@@ -5,10 +5,12 @@ import com.chesstournamentmanager.tournamentsvc.models.Tournament;
 import com.chesstournamentmanager.tournamentsvc.services.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,12 +27,12 @@ public class TournamentController {
 
 
     @GetMapping
-    public Iterable<Tournament> getTournaments() {
-        return tournamentService.getTournaments();
+    public ResponseEntity<List<Tournament>> getTournaments() {
+        return new ResponseEntity<>(tournamentService.getTournaments(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Tournament getTournament(
+    public ResponseEntity<Tournament> getTournament(
             @PathVariable UUID id) {
         Optional<Tournament> tournament = tournamentService.getTournament(id);
         if (tournament.isEmpty()) {
@@ -38,12 +40,12 @@ public class TournamentController {
                     HttpStatus.NOT_FOUND, "Tournament with id " + id + " not found"
             );
         }
-        return tournament.get();
+        return new ResponseEntity<>(tournament.get(), HttpStatus.OK);
     }
 
 
     @PostMapping
-    public Tournament addTournament(@RequestBody RequestModel requestModel) {
+    public ResponseEntity<Tournament> addTournament(@RequestBody RequestModel requestModel) {
         Tournament tournament = convertToEntity(requestModel);
 
         String message = tournamentService.tournamentValidation(tournament);
@@ -62,11 +64,11 @@ public class TournamentController {
                     "The tournament was not added successfully. Ask the developers to fix this issue."
             );
         }
-        return returnedTournament.get();
+        return new ResponseEntity<>(returnedTournament.get(), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Tournament updateTournament(
+    public ResponseEntity<Tournament> updateTournament(
             @PathVariable UUID id,
             @RequestParam(required = false) UUID hostId,
             @RequestParam(required = false) String name,
@@ -82,7 +84,7 @@ public class TournamentController {
                     "The tournament was not updated successfully. Ask the developers to fix this issue."
             );
         }
-        return returnedTournament.get();
+        return new ResponseEntity<>(returnedTournament.get(), HttpStatus.OK);
     }
 
 

@@ -14,7 +14,7 @@ import java.util.UUID;
 public class TournamentData {
 
     @Bean
-    public List<Tournament> getTournaments() {
+    public static List<Tournament> getTournaments() {
         List<Tournament> tournaments = new ArrayList<>();
         tournaments.add(new Tournament(UUID.randomUUID(),"Amazing tournament!", Tournament.Status.PLANNED, LocalDateTime.of(2025, Month.JANUARY, 1, 13, 0, 0), 5, 20));
         tournaments.add(new Tournament(UUID.randomUUID(),"KNSB Toernooi 2023", Tournament.Status.PLANNED, LocalDateTime.of(2027, Month.DECEMBER, 28, 14, 0, 0), 8, 60));

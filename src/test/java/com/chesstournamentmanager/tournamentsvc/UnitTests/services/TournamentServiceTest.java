@@ -7,8 +7,8 @@ import com.chesstournamentmanager.tournamentsvc.services.TournamentService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 public class TournamentServiceTest {
 
-    @Mock
+    @MockBean
     private TournamentRepository tournamentRepository;
     private AutoCloseable autoCloseable;
     private TournamentService tournamentService;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,8 +35,8 @@ public class TournamentService {
 
     // Read methods
 
-    public Iterable<Tournament> getTournaments() {
-        return tournamentRepository.findAll();
+    public List<Tournament> getTournaments() {
+        return (List<Tournament>)tournamentRepository.findAll();
     }
 
     public Optional<Tournament> getTournament(UUID id) {
