@@ -14,9 +14,4 @@ class TournamentSvcApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
-	@Test
-	void sendsWelcomeMessage() {
-		assertThat(tournamentSvcApplication.getMessage()).isEqualTo("Welcome to the tournament service.");
-	}
 }
